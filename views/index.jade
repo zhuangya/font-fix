@@ -1,0 +1,10 @@
+doctype html
+html(lang='zh')
+  head
+    meta(charset='utf-8')
+    title= title
+  body
+    p #{title}
+    form(aciton='/', method='post', enctype='multipart/form-data')
+      input(type='file', name='font')
+      button(type='submit') go
