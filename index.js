@@ -29,16 +29,18 @@ app.get('/', function (req, res) {
 
 app.post('/', multipartMiddleware, function (req, res) {
   var font = req.files.font;
-
   var fontFix = spawn('./tools/font-fix.sh', [font.path]);
+
   fontFix.on('error', function (error) {
     console.log('error: ' + error);
   });
-  fontFix.on('exit', function (code) {
-    res.attachment(font.path);
-    res.sendfile(font.path, function () {
+
+  fontFix.on('exit', function () {
+    res.download(font.path, function (err) {
+      if (err) throw err;
       fs.unlink(font.path);
     });
+
   });
 });
 
